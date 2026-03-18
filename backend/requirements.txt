@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+sqlalchemy
+psycopg2-binary  # PostgreSQL adapter
+pydantic
+pydantic-settings
+python-jose[cryptography] # For JWTs
+passlib[bcrypt] # For password hashing
+python-multipart # Required for OAuth2 password flow in FastAPI
+email-validator
