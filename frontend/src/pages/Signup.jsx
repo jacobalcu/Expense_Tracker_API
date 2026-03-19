@@ -1,12 +1,23 @@
 import { useState } from "react";
+import axios from "axios";
 
 export default function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(email, password);
+
+    try {
+      await axios.post("http://localhost:8000/auth/signup", {
+        email: email,
+        password: password,
+      });
+      console.log("Success! User created.");
+    } catch (error) {
+      // if FastAPI throws 400 "User already exists" error, it will land here
+      console.error("Signup failed:", error.response?.data?.detail);
+    }
   };
 
   return (

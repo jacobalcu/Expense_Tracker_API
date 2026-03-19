@@ -6,6 +6,7 @@ from app.db.database import get_db
 from jose import jwt, JWTError
 from app.api.auth import get_current_user_id
 from datetime import datetime
+from typing import Optional
 
 router = APIRouter()
 
@@ -20,7 +21,7 @@ def create_expense(expense: ExpenseCreate, db: Session = Depends(get_db), user_i
 # FastAPI will look for start_date and end_date in the URL string since they are optional
 # Example request from the frontend (GET /expenses?start_date=2024-01-01)
 @router.get("/", response_model=list[ExpenseResponse])
-def get_expenses(db: Session = Depends(get_db), user_id: str = Depends(get_current_user_id), start_date: datetime | None = None, end_date: datetime | None = None):
+def get_expenses(start_date: Optional[datetime], end_date: Optional[datetime], db: Session = Depends(get_db), user_id: str = Depends(get_current_user_id)):
     expenses = crud_expense.get_expenses(db=db, user_id=user_id, start_date=start_date, end_date = end_date)
 
     return expenses

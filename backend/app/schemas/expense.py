@@ -2,13 +2,14 @@ from pydantic import BaseModel
 from app.models.expense import Category
 from datetime import datetime
 from decimal import Decimal
+from typing import Optional
 
 # Parent class containing shared fields
 class ExpenseBase(BaseModel):
     amount: Decimal
     category: Category
     # Description can be string or None, def to None
-    description: str | None = None
+    description: Optional[str]
     expense_date: datetime
 
 class ExpenseCreate(ExpenseBase):
@@ -22,8 +23,8 @@ class ExpenseResponse(ExpenseBase):
     model_config= {"from_attributes":True}
 
 # Every field is optional
-class ExpenseSchema(BaseModel):
-    amount: Decimal | None = None
-    category: Category | None = None
-    description: str | None = None
-    expense_date: datetime | None = None
+class ExpenseUpdate(BaseModel):
+    amount: Optional[Decimal]
+    category: Optional[Category]
+    description: Optional[str]
+    expense_date: Optional[datetime]

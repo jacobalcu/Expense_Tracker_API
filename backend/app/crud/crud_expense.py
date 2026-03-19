@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 from app.models.expense import Expense
 from app.schemas.expense import ExpenseCreate, ExpenseUpdate
 from datetime import datetime
+from typing import Optional
 
 def create_expense(db: Session, expense: ExpenseCreate, user_id: str):
     # 1: Create a new instance of the SQLAlchemy 'Expense' model
@@ -18,7 +19,7 @@ def create_expense(db: Session, expense: ExpenseCreate, user_id: str):
     # 3: Return the newly created database expense
     return new_expense
 
-def get_expenses(db: Session, user_id: str, start_date: datetime | None = None, end_date: datetime | None = None):
+def get_expenses(db: Session, user_id: str, start_date: Optional[datetime], end_date: Optional[datetime]):
     expenses = db.query(Expense).filter(Expense.user_id == user_id)
 
     # Returns list of all user expenses
