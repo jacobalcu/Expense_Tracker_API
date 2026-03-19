@@ -127,6 +127,17 @@ export default function Dashboard() {
         </label>
         <button type="submit">Enter Expense</button>
       </form>
+      <div>
+        <h2>Your Expenses</h2>
+        {expenses.map((expense) => (
+          <div key={expense.id}>
+            <p>{expense.amount}</p>
+            <p>{expense.category}</p>
+            <p>{expense.description}</p>
+            <p>{new Date(expense.expense_date).toLocaleDateString()}</p>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
