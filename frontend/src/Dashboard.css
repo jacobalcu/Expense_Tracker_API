@@ -160,26 +160,20 @@
   background-color: #e53e3e;
 }
 
-/* --- Fix for the Native Date Picker --- */
-
-/* 1. Ensure the input handles the icon layout properly */
-.expense-form input[type="date"] {
-  position: relative;
-  cursor: text;
+/* --- Analytics --- */
+.analytics-banner {
+  background-color: #2c5282; /* Matches your header color */
+  color: white;
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* 2. Force the icon to have a physical size and visibility */
-.expense-form input[type="date"]::-webkit-calendar-picker-indicator {
-  display: block !important;
-  visibility: visible !important;
-  opacity: 0.6 !important;
-  width: 20px !important; /* Forces the browser to stop squishing it */
-  height: 20px !important; /* Forces the browser to stop squishing it */
-  cursor: pointer;
-  transition: opacity 0.2s ease;
-}
-
-/* 3. Make it light up when they hover over it */
-.expense-form input[type="date"]::-webkit-calendar-picker-indicator:hover {
-  opacity: 1 !important;
+.analytics-banner h2 {
+  margin: 0;
+  font-size: 2.2rem;
+  color: white; /* Overrides the dark text default for h2 */
+  font-weight: 700;
 }

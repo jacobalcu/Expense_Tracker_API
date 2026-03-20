@@ -93,6 +93,11 @@ export default function Dashboard() {
     }
   };
 
+  // Loops over all expenses, adding currentExpense.amount to sum
+  const totalExpenses = expenses.reduce((sum, currentExpense) => {
+    return sum + parseFloat(currentExpense.amount);
+  }, 0); // 0 is starting point of sum
+
   return (
     <div className="dashboard-container">
       <Navbar />
@@ -150,6 +155,9 @@ export default function Dashboard() {
           Enter Expense
         </button>
       </form>
+      <div className="analytics-banner">
+        <h2>Total Spent: ${totalExpenses.toFixed(2)}</h2>
+      </div>
       <div className="expense-list">
         <h2>Your Expenses</h2>
         {expenses.map((expense) => (
