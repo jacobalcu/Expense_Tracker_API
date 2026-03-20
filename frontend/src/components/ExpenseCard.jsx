@@ -1,4 +1,4 @@
-export default function ExpenseCard({ expense, deleteFunc }) {
+export default function ExpenseCard({ expense, deleteFunc, editFunc }) {
   // { expense } unpacks the Prop passed from the Dashboard
 
   return (
@@ -19,6 +19,12 @@ export default function ExpenseCard({ expense, deleteFunc }) {
 
         <button className="delete-btn" onClick={() => deleteFunc(expense.id)}>
           Delete Expense
+        </button>
+        <button
+          onClick={() => editFunc(expense)}
+          style={{ marginRight: "10px" }}
+        >
+          Edit
         </button>
       </div>
     </div>
