@@ -1,6 +1,8 @@
 import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { AuthContext } from "../context/AuthContext";
+import ExpenseCard from "../components/ExpenseCard";
+import "../Dashboard.css";
 
 export default function Dashboard() {
   // 1. A state variable to hold the list of expenses from the database
@@ -42,6 +44,23 @@ export default function Dashboard() {
     }
   }, [token]); // This array tells React to re-run the effect if the token ever changes
 
+  const handleDelete = async (expense_id) => {
+    try {
+      await axios.delete(
+        // Have to Inject the ID directly into the URL string
+        `http://localhost:8000/expenses/${expense_id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      setExpenses(expenses.filter((exp) => exp.id !== expense_id));
+      console.log("Successfully deleted the expense:", expense_id);
+    } catch (error) {
+      console.error("Failed to delete:".error);
+    }
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -76,8 +95,8 @@ export default function Dashboard() {
   return (
     <div className="dashboard-container">
       <h1>Expense Dashboard</h1>
-      <p>Check your console to see if the data arrived!</p>
-      <form onSubmit={handleSubmit}>
+      <p className="subtitle">Check your console to see if the data arrived!</p>
+      <form className="expense-form" onSubmit={handleSubmit}>
         <label htmlFor="amount">
           Amount:
           <input
@@ -125,17 +144,18 @@ export default function Dashboard() {
             type="date"
           />
         </label>
-        <button type="submit">Enter Expense</button>
+        <button className="submit-btn" type="submit">
+          Enter Expense
+        </button>
       </form>
-      <div>
+      <div className="expense-list">
         <h2>Your Expenses</h2>
         {expenses.map((expense) => (
-          <div key={expense.id}>
-            <p>{expense.amount}</p>
-            <p>{expense.category}</p>
-            <p>{expense.description}</p>
-            <p>{new Date(expense.expense_date).toLocaleDateString()}</p>
-          </div>
+          <ExpenseCard
+            key={expense.id}
+            expense={expense}
+            deleteFunc={handleDelete}
+          />
         ))}
       </div>
     </div>
