@@ -2,6 +2,7 @@ import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { AuthContext } from "../context/AuthContext";
+import { Link } from "react-router-dom";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -56,6 +57,7 @@ export default function Login() {
         </label>
         <button type="submit">Submit</button>
       </form>
+      No account? <Link to="/signup">Create one here</Link>
     </div>
   );
 }

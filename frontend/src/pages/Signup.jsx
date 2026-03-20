@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 export default function Signup() {
   const [email, setEmail] = useState("");
@@ -46,6 +47,7 @@ export default function Signup() {
         </label>
         <button type="submit">Submit</button>
       </form>
+      Have an account? <Link to="/login">Sign in here</Link>
     </div>
   );
 }

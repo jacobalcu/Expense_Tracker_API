@@ -3,6 +3,7 @@ import axios from "axios";
 import { AuthContext } from "../context/AuthContext";
 import ExpenseCard from "../components/ExpenseCard";
 import "../Dashboard.css";
+import Navbar from "../components/Navbar";
 
 export default function Dashboard() {
   // 1. A state variable to hold the list of expenses from the database
@@ -94,6 +95,7 @@ export default function Dashboard() {
 
   return (
     <div className="dashboard-container">
+      <Navbar />
       <h1>Expense Dashboard</h1>
       <p className="subtitle">Check your console to see if the data arrived!</p>
       <form className="expense-form" onSubmit={handleSubmit}>
