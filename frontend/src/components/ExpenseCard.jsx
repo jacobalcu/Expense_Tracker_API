@@ -21,8 +21,18 @@ export default function ExpenseCard({ expense, deleteFunc, editFunc }) {
           Delete Expense
         </button>
         <button
+          className="edit-btn"
           onClick={() => editFunc(expense)}
-          style={{ marginRight: "10px" }}
+          style={{
+            backgroundColor: "#ecc94b",
+            color: "#744210",
+            border: "none",
+            padding: "6px 12px",
+            borderRadius: "6px",
+            cursor: "pointer",
+            fontWeight: "600",
+            marginRight: "10px",
+          }}
         >
           Edit
         </button>

@@ -33,6 +33,10 @@ export default function ExpenseForm({ onSubmitForm, editingExpense }) {
 
     // Pass to upstream func in Dashboard.jsx
     onSubmitForm(formData);
+    setAmount(0);
+    setCategory("Groceries");
+    setDescription("");
+    setDate("");
   };
 
   return (

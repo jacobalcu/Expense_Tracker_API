@@ -161,19 +161,64 @@
 }
 
 /* --- Analytics --- */
+/* --- Analytics Banner & Filters --- */
+
 .analytics-banner {
-  background-color: #2c5282; /* Matches your header color */
+  background-color: #2c5282;
   color: white;
-  padding: 20px;
+  padding: 20px 25px; /* Slightly wider padding */
   border-radius: 12px;
-  text-align: center;
   margin-bottom: 30px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+  /* Flexbox Magic: Pushes controls to the left, Total to the right */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap; /* Allows it to stack nicely on small phone screens! */
+  gap: 20px;
+}
+
+.filter-controls {
+  display: flex;
+  gap: 12px;
+}
+
+/* Style the Dropdowns to look modern and sleek */
+.filter-controls select {
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background-color: rgba(255, 255, 255, 0.1); /* Semi-transparent white */
+  color: white;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.filter-controls select:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.filter-controls select:focus {
+  border-color: #63b3ed;
+  box-shadow: 0 0 0 2px rgba(99, 179, 237, 0.3);
+}
+
+/* CRITICAL FIX: Native dropdown menus (the list of options that pops out) 
+  will inherit the white text. If the browser makes the popup background white, 
+  your text will turn invisible! This forces the popup text to be dark.
+*/
+.filter-controls select option {
+  color: #2d3748;
+  background-color: white;
 }
 
 .analytics-banner h2 {
   margin: 0;
-  font-size: 2.2rem;
-  color: white; /* Overrides the dark text default for h2 */
+  font-size: 2rem;
   font-weight: 700;
+  letter-spacing: -0.5px;
 }
