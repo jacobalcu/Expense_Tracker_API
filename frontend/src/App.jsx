@@ -3,6 +3,7 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Analytics from "./pages/Analytics";
 
 function App() {
   return (
@@ -20,7 +21,15 @@ function App() {
               <Dashboard />
             </ProtectedRoute>
           }
-        />{" "}
+        />
+        <Route
+          path="/analytics"
+          element={
+            <ProtectedRoute>
+              <Analytics />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );

@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
+import { Link } from "react-router-dom";
 
 export default function Navbar() {
   // 1. Initialize your navigator
@@ -28,20 +29,42 @@ export default function Navbar() {
       }}
     >
       <h2 style={{ margin: 0, color: "#2c5282" }}>Tracker</h2>
-      <button
-        onClick={handleLogout}
-        style={{
-          padding: "8px 16px",
-          backgroundColor: "#e2e8f0",
-          border: "none",
-          borderRadius: "6px",
-          cursor: "pointer",
-          fontWeight: "bold",
-          color: "#4a5568",
-        }}
-      >
-        Logout
-      </button>
+      <div style={{ display: "flex", gap: "20px", alignItems: "center" }}>
+        <Link
+          to="/dashboard"
+          style={{
+            textDecoration: "none",
+            color: "#4a5568",
+            fontWeight: "600",
+          }}
+        >
+          Dashboard
+        </Link>
+        <Link
+          to="/analytics"
+          style={{
+            textDecoration: "none",
+            color: "#4a5568",
+            fontWeight: "600",
+          }}
+        >
+          Analytics
+        </Link>
+        <button
+          onClick={handleLogout}
+          style={{
+            padding: "8px 16px",
+            backgroundColor: "#e2e8f0",
+            border: "none",
+            borderRadius: "6px",
+            cursor: "pointer",
+            fontWeight: "bold",
+            color: "#4a5568",
+          }}
+        >
+          Logout
+        </button>
+      </div>
     </nav>
   );
 }
