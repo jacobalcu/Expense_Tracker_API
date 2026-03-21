@@ -1,11 +1,25 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "../Dashboard.css";
 
-export default function ExpenseForm({ onSubmitForm }) {
+export default function ExpenseForm({ onSubmitForm, editingExpense }) {
   const [amount, setAmount] = useState(0);
   const [category, setCategory] = useState("Groceries");
   const [description, setDescription] = useState("");
   const [date, setDate] = useState("");
+
+  useEffect(() => {
+    if (editingExpense) {
+      setAmount(editingExpense.amount);
+      setCategory(editingExpense.category);
+      setDescription(editingExpense.description);
+      setDate(editingExpense.expense_date);
+    } else {
+      setAmount(0);
+      setCategory("Groceries");
+      setDescription("");
+      setDate("");
+    }
+  }, [editingExpense]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -19,12 +33,6 @@ export default function ExpenseForm({ onSubmitForm }) {
 
     // Pass to upstream func in Dashboard.jsx
     onSubmitForm(formData);
-
-    // Clear the local form fields
-    setAmount(0);
-    setDescription("");
-    setDate("");
-    setCategory("Groceries");
   };
 
   return (
@@ -77,7 +85,7 @@ export default function ExpenseForm({ onSubmitForm }) {
         />
       </label>
       <button className="submit-btn" type="submit">
-        Enter Expense
+        {editingExpense ? "Update Expense" : "Create Expense"}
       </button>
     </form>
   );

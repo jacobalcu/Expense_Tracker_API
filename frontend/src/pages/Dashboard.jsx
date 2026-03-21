@@ -11,7 +11,7 @@ export default function Dashboard() {
   const [expenses, setExpenses] = useState([]);
 
   // Will hold ID of expense currently being edited
-  const [editingId, setEditingId] = useState(null);
+  const [editingExpense, setEditingExpense] = useState(null);
 
   // 2. Grab the VIP wristband from your radio tower
   const { token } = useContext(AuthContext);
@@ -62,20 +62,36 @@ export default function Dashboard() {
     }
   };
 
-  const handleCreateExpense = async (formData) => {
+  const handleCreateOrUpdate = async (formData) => {
     try {
-      const response = await axios.post(
-        "http://localhost:8000/expenses/",
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`, // Showing the bouncer the wristband!
-          },
-        },
-      );
-      console.log("Success! Expense added to the database.");
+      if (editingExpense) {
+        const response = await axios.put(
+          `http://localhost:8000/expenses/${editingExpense.id}`,
+          formData,
+          { headers: { Authorization: `Bearer ${token}` } },
+        );
 
-      setExpenses([...expenses, response.data]);
+        // Swap old expense out for newly updated in expenses
+        setExpenses(
+          expenses.map((exp) =>
+            exp.id == editingExpense.id ? response.data : exp,
+          ),
+        );
+
+        // Turn off edit mode
+        setEditingExpense(null);
+      } else {
+        const response = await axios.post(
+          "http://localhost:8000/expenses/",
+          formData,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`, // Showing the bouncer the wristband!
+            },
+          },
+        );
+        setExpenses([...expenses, response.data]);
+      }
     } catch (error) {
       console.error("Failed to add expense:", error);
     }
@@ -83,11 +99,8 @@ export default function Dashboard() {
 
   // Dumpts data into state vars to show on the form
   const handleEditClick = (expense) => {
-    setAmount(expense.amount);
-    setCategory(expense.category);
-    setDescription(expense.description);
-    setDate(expense.expense_date);
-    setEditingId(expense.id); // Tells app we are in "Edit" mode
+    setEditingExpense(expense);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   // Loops over all expenses, adding currentExpense.amount to sum
@@ -100,7 +113,10 @@ export default function Dashboard() {
       <Navbar />
       <h1>Expense Dashboard</h1>
       <p className="subtitle">Track your spending</p>
-      <ExpenseForm onSubmitForm={handleCreateExpense} />
+      <ExpenseForm
+        onSubmitForm={handleCreateOrUpdate}
+        editingExpense={editingExpense}
+      />
 
       <div className="analytics-banner">
         <h2>Total Spent: ${totalExpenses.toFixed(2)}</h2>
