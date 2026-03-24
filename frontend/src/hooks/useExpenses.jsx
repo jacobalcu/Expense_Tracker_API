@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 export default function useExpenses(token) {
   // Store expense and editingExpenses
   const [expenses, setExpenses] = useState([]);
@@ -12,7 +14,7 @@ export default function useExpenses(token) {
     const fetchExpenses = async () => {
       try {
         // 4. The Authenticated Axios Request
-        const response = await axios.get("http://localhost:8000/expenses/", {
+        const response = await axios.get(`${BASE_URL}/expenses/`, {
           headers: {
             Authorization: `Bearer ${token}`, // Showing the bouncer the wristband!
           },
@@ -40,7 +42,7 @@ export default function useExpenses(token) {
     try {
       await axios.delete(
         // Have to Inject the ID directly into the URL string
-        `http://localhost:8000/expenses/${expense_id}`,
+        `${BASE_URL}/expenses/${expense_id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -59,7 +61,7 @@ export default function useExpenses(token) {
     try {
       if (editingExpense) {
         const response = await axios.put(
-          `http://localhost:8000/expenses/${editingExpense.id}`,
+          `${BASE_URL}/expenses/${editingExpense.id}`,
           formData,
           { headers: { Authorization: `Bearer ${token}` } },
         );
@@ -74,15 +76,11 @@ export default function useExpenses(token) {
         // Turn off edit mode
         setEditingExpense(null);
       } else {
-        const response = await axios.post(
-          "http://localhost:8000/expenses/",
-          formData,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`, // Showing the bouncer the wristband!
-            },
+        const response = await axios.post(`${BASE_URL}/expenses/`, formData, {
+          headers: {
+            Authorization: `Bearer ${token}`, // Showing the bouncer the wristband!
           },
-        );
+        });
         setExpenses([...expenses, response.data]);
       }
     } catch (error) {
