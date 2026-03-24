@@ -1,107 +1,29 @@
 import { useState, useEffect, useContext, use } from "react";
-import axios from "axios";
 import { AuthContext } from "../context/AuthContext";
 import ExpenseCard from "../components/ExpenseCard";
 import "../Dashboard.css";
 import Navbar from "../components/Navbar";
 import ExpenseForm from "../components/ExpenseForm";
+import useExpenses from "../hooks/useExpenses";
 
 export default function Dashboard() {
-  // 1. A state variable to hold the list of expenses from the database
-  const [expenses, setExpenses] = useState([]);
-
   // Secondary array for filtered expenses
   const [filterCategory, setFilterCategory] = useState("All");
 
   // Derived state for sorting
   const [sortOrder, setSortOrder] = useState("Date (Newest)");
 
-  // Will hold ID of expense currently being edited
-  const [editingExpense, setEditingExpense] = useState(null);
-
   // 2. Grab the VIP wristband from your radio tower
   const { token } = useContext(AuthContext);
 
-  // 3. The useEffect hook runs automatically when the component loads
-  useEffect(() => {
-    const fetchExpenses = async () => {
-      try {
-        // 4. The Authenticated Axios Request
-        const response = await axios.get("http://localhost:8000/expenses/", {
-          headers: {
-            Authorization: `Bearer ${token}`, // Showing the bouncer the wristband!
-          },
-        });
-
-        // 5. Save the data to our React state
-        console.log("Fetched expenses:", response.data);
-        setExpenses(response.data);
-      } catch (error) {
-        console.error(
-          "Failed to fetch expenses:",
-          error.response?.data?.detail,
-        );
-      }
-    };
-
-    // Only try to fetch if we actually have a token
-    if (token) {
-      fetchExpenses();
-    }
-  }, [token]); // This array tells React to re-run the effect if the token ever changes
-
-  const handleDelete = async (expense_id) => {
-    try {
-      await axios.delete(
-        // Have to Inject the ID directly into the URL string
-        `http://localhost:8000/expenses/${expense_id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
-      setExpenses(expenses.filter((exp) => exp.id !== expense_id));
-      console.log("Successfully deleted the expense:", expense_id);
-    } catch (error) {
-      console.error("Failed to delete:".error);
-    }
-  };
-
-  const handleCreateOrUpdate = async (formData) => {
-    try {
-      if (editingExpense) {
-        const response = await axios.put(
-          `http://localhost:8000/expenses/${editingExpense.id}`,
-          formData,
-          { headers: { Authorization: `Bearer ${token}` } },
-        );
-
-        // Swap old expense out for newly updated in expenses
-        setExpenses(
-          expenses.map((exp) =>
-            exp.id == editingExpense.id ? response.data : exp,
-          ),
-        );
-
-        // Turn off edit mode
-        setEditingExpense(null);
-      } else {
-        const response = await axios.post(
-          "http://localhost:8000/expenses/",
-          formData,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`, // Showing the bouncer the wristband!
-            },
-          },
-        );
-        setExpenses([...expenses, response.data]);
-      }
-    } catch (error) {
-      console.error("Failed to add expense:", error);
-    }
-  };
+  // Grab the data and functions from custom hook
+  const {
+    expenses,
+    editingExpense,
+    setEditingExpense,
+    handleDelete,
+    handleCreateOrUpdate,
+  } = useExpenses(token);
 
   // Dumpts data into state vars to show on the form
   const handleEditClick = (expense) => {
