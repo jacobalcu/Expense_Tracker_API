@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 export default function Signup() {
+  const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -13,7 +15,7 @@ export default function Signup() {
     e.preventDefault();
 
     try {
-      await axios.post("http://localhost:8000/auth/signup", {
+      await axios.post(`${BASE_URL}/auth/signup`, {
         email: email,
         password: password,
       });

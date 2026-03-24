@@ -5,6 +5,7 @@ import { AuthContext } from "../context/AuthContext";
 import { Link } from "react-router-dom";
 
 export default function Login() {
+  const BASE_URL = import.meta.env.VITE_API_BASE_URL;
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -16,7 +17,7 @@ export default function Login() {
     e.preventDefault();
 
     try {
-      const response = await axios.post("http://localhost:8000/auth/login", {
+      const response = await axios.post(`${BASE_URL}/auth/login`, {
         email: email,
         password: password,
       });
