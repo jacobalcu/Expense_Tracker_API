@@ -2,11 +2,15 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+DATABASE_URL = os.getenv("DATABASE_URL")
 
 # Normally load from .env file via app/core/config.py
 SQLALCHEMY_DATABASE_URL = os.getenv(
-    "DATABASE_URL",
-    "postgresql://postgres:password@localhost/expense_tracker"
+    "DATABASE_URL"
 )
 
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
