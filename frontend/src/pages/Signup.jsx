@@ -1,10 +1,13 @@
 import { useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -15,6 +18,8 @@ export default function Signup() {
         password: password,
       });
       console.log("Success! User created.");
+
+      navigate("/login");
     } catch (error) {
       // if FastAPI throws 400 "User already exists" error, it will land here
       console.error("Signup failed:", error.response?.data?.detail);
